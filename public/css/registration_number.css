@@ -1,0 +1,102 @@
+/**
+*** SIMPLE GRID
+*** (C) ZACH COLE 2016
+**/
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+
+/* UNIVERSAL */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 100%;
+}
+* {
+  font-size: large;
+  font-family: Impact;
+  color: black;
+  line-height: 1.5;
+}
+h1 {
+  font-size: xx-large;
+}
+button {
+	font-size: 1em;
+	border-radius: 0.3em;
+	width: 5em;
+}
+.displayOutputField {
+  display: inline-block;
+  background-color: white;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding : 1em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.plates {
+  border: solid black 2px;
+  background-color: yellow;
+  float: left;
+  margin-left: 5px;
+  margin-top: 5px;
+  border-radius: 0.5em;
+  padding: 5px;
+}
+
+.error {
+  color: red;
+}
+.success {
+  color: green;
+}
+
+
+.inputReg {
+  width: 500px;
+  height: 50px;
+  border: solid black 2px;
+  padding: 5px;
+}
+.inputHere {
+  width: 500px;
+  height: 50px;
+  border: solid black 2px;
+  padding: 5px;
+}
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+}
+
+
+
+@media only screen and (min-width: 33.75em) {  /* 540px */
+    
+  }
+  
+  @media only screen and (min-width: 45em) {  /* 720px */
+    
+  } 
+  
+  @media only screen and (min-width: 60em) { /* 960px */
+
+  }

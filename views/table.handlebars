@@ -1,0 +1,25 @@
+<div class="text-center">
+    <h1>Record Of Names Greeted</h1>
+    <table class="text">
+        <tr>
+            <th>Names</th>
+            <th>Counter</th>
+        </tr>
+        {{#each allNames}}
+        <tr>
+            <td><a href="/counter/{{names}}">{{names}}</a></td>
+            <td>{{times_greeted}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <div class="">
+            <label class="" sfor="whoever">{{messages.recMsg}}</label>
+        </div>
+    <br>
+    <form action="/backToHomePage" method="POST">
+        <button type="submit" class="btn btn-warning" value="home page">
+            Home Page
+        </button>
+    </form>
+</div>

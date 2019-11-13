@@ -1,0 +1,26 @@
+language: node_js
+
+env:
+  - DATABASE_URL=postgresql://postgres@localhost:5432/greeted_users
+
+node_js:  
+  - "9.11.2"
+
+before_script:
+  - psql -c 'create database greeted_users;' -U postgres
+  - psql -U postgres -d greeted_users -a -f database-table.sql
+
+
+
+
+services:
+  - postgresql
+  
+addons:
+  apt:
+    sources:
+    - precise-pgdg-9.5
+    packages:
+    - postgresql-9.5
+    - postgresql-contrib-9.5
+  postgresql: 9.5
