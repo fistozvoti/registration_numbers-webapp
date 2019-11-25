@@ -1,63 +1,97 @@
-module.exports = function registrationNumbers(storage) {
-    var regList = storage || [];
-    var valid = ['CA', 'CY', 'CK'];
-    const regularPattern = /^([A-Z]){2}\s([0-9]){3}\s([0-9]){3}/;
-    const regularPattern2 = /^^([A-Z]){2}\s([0-9]){3}-([0-9]){3}/;
+module.exports = function registrationNumbers(pool) {
+    var giveErrorMessage = '';
 
-    let errorMessage = {
-        'isError': false,
-         'msg': ''
+   async function addNewRegistration(reg){
+    let regularPattern1 = /^([A-Za-z]){2}\s([0-9]){3}\s([0-9]){3}/;
+    let regularPattern2 = /^([A-Za-z]){2}\s([0-9]){3}-([0-9]){3}/;
+    let regEx1 = regularPattern1.test(reg);
+    let regEx2 = regularPattern2.test(reg);
 
-    }
-    function handleError(isError, message){
-        errorMessage.isError = isError;
-        errorMessage.msg = message;
-         return errorMessage
+    if(!regEx1 && !regEx2){
+        giveErrorMessage = 'This format is not supported!';
+        return false;
     }
 
-   function addnew(reg){
-    if(reg === undefined || reg === ""){
-        return handleError(true, 'Please insert Registration number!')
-    }
-      if(!regularPattern.test(reg) && !regularPattern2.test(reg)){
-     return handleError(true,'Invalid Format!');
-      }
-    if(!valid.includes(reg.split(' ')[0])){
-       return handleError(true,'Invalid Registration!');
-    }
-    if(regList.includes(reg)){
-      return handleError(true, 'Already exists!');
-      
-    }
-    regList.push(reg)
-     return handleError(false, 'Registration number added!');
-   }
+    if (reg) {
+        let regNum = reg.toUpperCase();
 
-    function filterRegsOnTown(town) {
-        var filterdList = [];
-           
-        if(town === undefined || town === ""){
-            return regList;
+    if(reg){
+        let subStr = regNum.substring(0, 2);
+
+        var results = await pool.query('SELECT id FROM towns WHERE location_key = $1', [subStr]);
+        if(results.rowCount ===0){
+            giveErrorMessage = 'Enter a  Registration Number for the supported Towns!';
+            return false;
+        }else{
+        let thisQuery = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [regNum]);
+
+        if(thisQuery.rowCount === 1){
+            giveErrorMessage = 'Sorry but this Registration Number already exists!';            
+            return false;
         }
+        let checkResults = results.rows;
+        let getTownID = checkResults[0].id;
+        await pool.query('INSERT INTO registration_numbers (registration, town_id) VALUES ($1, $2)', [regNum, getTownID]);
+        return true;
+        }
+    }
+        
+      }
 
-        for (var i = 0; i < regList.length; i++) {
-            var reg = regList[i];
+       }
 
-            if (reg.startsWith(town)) {
-                filterdList.push(reg);
+   async function getRegistrationNumbers(){
+    let thisEmptyList = []
+    let results = await pool.query('SELECT registration FROM registration_numbers');
+    
+    for (let i = 0; i < results.rows.length; i++) {
+        let element = results.rows[i];
+        thisEmptyList.push(element.registration);
+    }
+    return thisEmptyList;
+  }
+
+  async function reset() {
+    await pool.query('DELETE FROM registration_numbers');
+    }
+
+  async function filterRegsOnTown(filterByTown) {
+        var listOfFiltered = [];
+
+        if(filterByTown === 'All'){
+            return getRegistrationNumbers();
+        }
+           
+        if(filterByTown !== undefined || filterByTown !== ''){
+
+        let filter = getRegistrationNumbers();
+         filter = await pool.query('SELECT registration_numbers.registration,towns.location_key FROM registration_numbers INNER JOIN towns ON registration_numbers.town_id = towns.id');
+         filter = filter.rows;
+        
+
+        for (var i = 0; i < filter.length; i++) {
+            var filteredRegistrations = filter[i];
+
+            if (filteredRegistrations.location_key === filterByTown) {
+                listOfFiltered.push(filteredRegistrations.registration);
             }
         }
-        return filterdList;
+        return listOfFiltered;
+        }else{
+        return getRegistrationNumbers();;
+        }
     }
 
 
-    function getList() {
-        return regList;
+    function returnErrors() {
+        return giveErrorMessage;
     }
 
     return {
+        reset,
+        getRegistrationNumbers,
         filterRegsOnTown,
-        getList,
-        addnew
+        returnErrors,
+        addNewRegistration
     }
 }

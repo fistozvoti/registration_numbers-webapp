@@ -15,8 +15,8 @@
 </head>
 
 
-{{!-- <script type="text/x-template" class="displayItHere">
-    {{#each getTemplate}}
+{{!-- <script type="text/x-template" class="displayOutputField">
+    {{#each display}}
     <div class="plates">{{this}}</div>
   {{/each}}
 </script> --}}
@@ -28,43 +28,64 @@
 
         <h1>Registration Numbers</h1>
 
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-6 form-group w-25">
-            <input type="text" name="number" class="inputReg" onfocus="this.value=''" placeholder="e.g. CA 123 456 / CA 123-456">
-        </div>
-        </div>
-        
-        <div>
-            <p class="message"></p>
-        </div>
+        <form action="/reg_numbers/{{typedRegistration}}" method="POST">
+            <div class="error">
+                {{messages.error}}
+            </div>
+            <div class="success">
+                {{messages.success}}
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 form-group w-25">
+                    <input type="text" name="number" class="inputReg" onfocus="this.value=''"
+                        placeholder="e.g. CA 123 456 / CA 123-456">
+                </div>
+            </div>
 
-        <div class="">
-            <label>
-                <input class="radio radio-danger" name="radioBtns" type="radio" value="CA">
-                Cape Town
-            </label>
-            <label>
-                <input class="radio radio-danger" name="radioBtns" type="radio" value="CY">
-                Bellville
-            </label>
-            <label>
-                <input class="radio radio-danger" name="radioBtns" type="radio" value="CK">
-                Malmesbury
-            </label>
-            <label>
-                <input class="radio radio-danger" name="radioBtns" type="radio" value="">
-                All
-            </label>
-        </div>
+            <div>
+                <button class="addBtn" type="submit">Add</button>
+            </div>
+        </form>
+            <br>
+            <div>
+                
+                <form action="/filter" method="POST">
+                <div class="">
+                <label >
+                    <input class="" name="radioButton" type="radio" value="CA">
+                    Cape Town
+                </label>
+                <label>
+                    <input class="" name="radioButton" type="radio" value="CY">
+                    Bellville
+                </label>
+                <label>
+                    <input class="" name="radioButton" type="radio" value="CK">
+                    Malmesbury
+                </label>
+                <label>
+                    <input class="" name="radioButton" type="radio" value="All">
+                    All
+                </label>
+            </div>
 
-        <div>
-            <button class="addBtn">Add</button>
-            <button class="filterBtn">Show</button>
-            <button class="resetBtn">Reset</button>
-        </div>
+                    <button class="filterBtn" type ="submit" >Show</button>
+                </form>
+                
+                <form action="/reset" method="POST">
+                    <button class="resetBtn">Reset</button>
+                </form>
+                
+            </div>
 
         <div class="displayOutputField">
+            {{#each display}}
+            <div class="plates">{{this}}</div>
+            {{/each}}
 
+            {{#each displayFiltered}}
+            <div class="plates">{{this}}</div>
+            {{/each}}
         </div>
     </div>
 

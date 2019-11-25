@@ -8,25 +8,25 @@ const makeRegistrationRoutes = require('./registration_numbers-routes')
 
 const app = express();
 
-// const pg = require("pg");
-// const Pool = pg.Pool;
+const pg = require("pg");
+const Pool = pg.Pool;
 
 // **should we use a SSL connection**
-// let useSSL = false;
-// let local = process.env.LOCAL ||registrationsFacregistrationNumberstoryregistrationsFacregistrationNumberstory false;
-// if (process.env.DATABASE_URL && !local){
-//     useSSL = true;
-// }
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
 
 // **which db connection to use**
-// const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex123@localhost:5432/greeted_users';
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex123@localhost:5432/registrations_and_towns';
 
-// const pool = new Pool({
-//     connectionString,
-//     ssl : useSSL
-//   });
+const pool = new Pool({
+    connectionString,
+    ssl : useSSL
+  });
 
-const regNumbers = registrationNumbers();
+const regNumbers = registrationNumbers(pool);
 const registrationsRoutes = makeRegistrationRoutes(regNumbers)
 
 
@@ -58,14 +58,10 @@ app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 
 //**Routes for my app**
-app.get('/', registrationsRoutes.index);
-// app.post('/inputName/greetUser/', registrationsRoutes.greet);
-// app.get('/counter/:tableOfNames', registrationsRoutes.counter);
-// app.post('/backToHomePage', registrationsRoutes.homePage);
-// app.get('/greeted',registrationsRoutes.table)
-// app.post('/reset', registrationsRoutes.reset);
-// app.get('/counter/:userName', registrationsRoutes.counter);
-// app.post('/backToGreeted', registrationsRoutes.backToGreeted);
+app.get('/reg_numbers', registrationsRoutes.index);
+app.post('/reg_numbers', registrationsRoutes.addingRegistrations);
+app.post('/filter', registrationsRoutes.filter);
+app.post('/reset', registrationsRoutes.reset);
 
 let PORT = process.env.PORT || 3001;
 
