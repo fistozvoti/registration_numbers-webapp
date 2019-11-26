@@ -39,6 +39,10 @@ module.exports = function registrationNumbers(pool) {
       }
 
        }
+   async function getTheTowns(){
+        let returnTown = await pool.query('SELECT * FROM towns');
+        return returnTown.rows;
+   }    
 
    async function getRegistrationNumbers(){
     let thisEmptyList = []
@@ -89,9 +93,10 @@ module.exports = function registrationNumbers(pool) {
 
     return {
         reset,
-        getRegistrationNumbers,
-        filterRegsOnTown,
+        getTheTowns,
         returnErrors,
-        addNewRegistration
+        filterRegsOnTown,
+        addNewRegistration,
+        getRegistrationNumbers
     }
 }

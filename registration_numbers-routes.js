@@ -1,16 +1,37 @@
 module.exports = function (registrationsFactory) {
 
     async function index(req, res) {
+        let reg = req.params.reg;        
+        let displayFilteredRegistrations = await registrationsFactory.filterRegsOnTown(reg);
         let displayRegistrations = await registrationsFactory.getRegistrationNumbers();
+        let letsSeeTheTowns = await registrationsFactory.getTheTowns();
+
+        if(reg){
+            var itsAdded = await registrationsFactory.addNewRegistration(reg);
+            
+            if(itsAdded){
+                req.flash('success', 'Registration Number has been successfully added!');
+            }
+            else if(reg === ''){
+                req.flash('error', 'Please enter a Registration Number below!');
+            }
+            else{
+                req.flash('error', registrationsFactory.returnErrors());
+            }
+            return res.redirect('/reg_numbers')
+        
+        }
 
         res.render('index', {
             display: displayRegistrations,
+            displayFiltered: displayFilteredRegistrations,
+            towns: letsSeeTheTowns
         });
         
     }
 
     async function addingRegistrations(req, res){
-        let typedRegistration = req.params.reg;  
+        let typedRegistration = req.body.number;  
         var itsAdded = await registrationsFactory.addNewRegistration(typedRegistration);
 
         if(itsAdded){
@@ -33,15 +54,17 @@ module.exports = function (registrationsFactory) {
     }
 
     async function filter(req, res){
-        let radioButtons = req.body.radioButton;
+        let radioButtons = req.params.key;
         let displayFilteredRegistrations = await registrationsFactory.filterRegsOnTown(radioButtons);
+        let letsSeeTheTowns = await registrationsFactory.getTheTowns();
 
        if(displayFilteredRegistrations.length == 0){
         req.flash('error', 'There is nothing to filter for this town!')
         }
 
         res.render('index', {
-            displayFiltered: displayFilteredRegistrations
+            displayFiltered: displayFilteredRegistrations,
+            towns: letsSeeTheTowns
         });
     }
 

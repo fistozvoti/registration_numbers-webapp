@@ -28,7 +28,7 @@
 
         <h1>Registration Numbers</h1>
 
-        <form action="/reg_numbers/{{typedRegistration}}" method="POST">
+        <form action="/reg_numbers" method="POST">
             <div class="error">
                 {{messages.error}}
             </div>
@@ -49,9 +49,18 @@
             <br>
             <div>
                 
-                <form action="/filter" method="POST">
+                {{!-- <form action="/filter" method="POST"> --}}
                 <div class="">
-                <label >
+                    <select onchange="forSelectingTheTowns()" name="selectTown" class="selectTowns browser-default custom-select">
+                    <option selected>Open this select menu</option>
+                    <option value="All">Show all towns</option>
+                    {{#each towns}}
+                    <option value={{location_key}}>{{town}}</option>
+                    {{!-- <option value="CY">Bellville</option> --}}
+                    {{!-- <option value="CK">Malmesbury</option> --}}
+                    {{/each}}
+                    </select>
+                {{!-- <label >
                     <input class="" name="radioButton" type="radio" value="CA">
                     Cape Town
                 </label>
@@ -66,11 +75,11 @@
                 <label>
                     <input class="" name="radioButton" type="radio" value="All">
                     All
-                </label>
+                </label> --}}
             </div>
 
-                    <button class="filterBtn" type ="submit" >Show</button>
-                </form>
+                    {{!-- <button class="filterBtn" type ="submit" >Show</button> --}}
+                {{!-- </form> --}}
                 
                 <form action="/reset" method="POST">
                     <button class="resetBtn">Reset</button>
@@ -79,6 +88,7 @@
             </div>
 
         <div class="displayOutputField">
+            
             {{#each display}}
             <div class="plates">{{this}}</div>
             {{/each}}
@@ -88,5 +98,10 @@
             {{/each}}
         </div>
     </div>
-
+<script>
+    function forSelectingTheTowns(){
+        let key = document.querySelector(".selectTowns").value;
+        loc.href = '/filter/' + key;
+    }
+</script>
 </body>
