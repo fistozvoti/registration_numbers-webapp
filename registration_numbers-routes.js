@@ -54,8 +54,12 @@ module.exports = function (registrationsFactory) {
     }
 
     async function filter(req, res){
-        let radioButtons = req.params.key;
+        let radioButtons = req.body.radioButton;
+        console.log(radioButtons);
+        
         let displayFilteredRegistrations = await registrationsFactory.filterRegsOnTown(radioButtons);
+        console.log(displayFilteredRegistrations);
+        
         let letsSeeTheTowns = await registrationsFactory.getTheTowns();
 
        if(displayFilteredRegistrations.length == 0){

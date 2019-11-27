@@ -49,18 +49,16 @@
             <br>
             <div>
                 
-                {{!-- <form action="/filter" method="POST"> --}}
+                <form action="/filter" method="POST">
                 <div class="">
-                    <select onchange="forSelectingTheTowns()" name="selectTown" class="selectTowns browser-default custom-select">
+                    {{!-- <select onchange="forSelectingTheTowns()" name="selectTown" class="browser-default custom-select selectTowns">
                     <option selected>Open this select menu</option>
                     <option value="All">Show all towns</option>
                     {{#each towns}}
                     <option value={{location_key}}>{{town}}</option>
-                    {{!-- <option value="CY">Bellville</option> --}}
-                    {{!-- <option value="CK">Malmesbury</option> --}}
                     {{/each}}
-                    </select>
-                {{!-- <label >
+                    </select> --}}
+                <label >
                     <input class="" name="radioButton" type="radio" value="CA">
                     Cape Town
                 </label>
@@ -75,11 +73,11 @@
                 <label>
                     <input class="" name="radioButton" type="radio" value="All">
                     All
-                </label> --}}
+                </label>
             </div>
 
-                    {{!-- <button class="filterBtn" type ="submit" >Show</button> --}}
-                {{!-- </form> --}}
+                    <button class="filterBtn" type ="submit" >Show</button>
+                </form>
                 
                 <form action="/reset" method="POST">
                     <button class="resetBtn">Reset</button>
@@ -98,10 +96,10 @@
             {{/each}}
         </div>
     </div>
-<script>
+{{!-- <script>
     function forSelectingTheTowns(){
         let key = document.querySelector(".selectTowns").value;
-        loc.href = '/filter/' + key;
+        loc.href = '/filter/:' + key;
     }
-</script>
+</script> --}}
 </body>

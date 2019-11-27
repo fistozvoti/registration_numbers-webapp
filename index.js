@@ -58,11 +58,12 @@ app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 
 //**Routes for my app**
-// app.get('/', registrationsRoutes.index);
+app.get('/', registrationsRoutes.index);
 app.get('/reg_numbers', registrationsRoutes.index);
 app.get('/reg_numbers/:reg', registrationsRoutes.index);
 app.post('/reg_numbers', registrationsRoutes.addingRegistrations);
-app.post('/filter/:key', registrationsRoutes.filter);
+app.post('/filter', registrationsRoutes.filter);
+// app.post('/filter/:key', registrationsRoutes.filter);
 app.post('/reset', registrationsRoutes.reset);
 
 let PORT = process.env.PORT || 3000;
