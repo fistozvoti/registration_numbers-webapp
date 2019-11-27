@@ -13,4 +13,3 @@ create table registration_numbers (
 INSERT INTO towns (town, location_key) VALUES ('Cape Town', 'CA');
 INSERT INTO towns (town, location_key) VALUES ('Bellville', 'CY');
 INSERT INTO towns (town, location_key) VALUES ('Malmesbury', 'CK');
-INSERT INTO towns (town, location_key) VALUES ('Delft', 'CF')		
