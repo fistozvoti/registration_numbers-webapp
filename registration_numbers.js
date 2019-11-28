@@ -4,18 +4,25 @@ module.exports = function registrationNumbers(pool) {
    async function addNewRegistration(reg){
     let regularPattern1 = /^([A-Za-z]){2}\s([0-9]){3}\s([0-9]){3}/;
     let regularPattern2 = /^([A-Za-z]){2}\s([0-9]){3}-([0-9]){3}/;
-    let regularPattern3 = /^([A-Za-z]){3}\s([0-9]){3}-([0-9]){3}/;
+    let regularPattern3 = /^([A-Za-z]){2}\s([0-9]){3}/;
     let regularPattern4 = /^([A-Za-z]){3}\s([0-9]){3}\s([0-9]){3}/;
+    let regularPattern5 = /^([A-Za-z]){3}\s([0-9]){3}-([0-9]){3}/
     let regEx1 = regularPattern1.test(reg);
     let regEx2 = regularPattern2.test(reg);
     let regEx3 = regularPattern3.test(reg);
     let regEx4 = regularPattern4.test(reg);
+    let regEx5 = regularPattern5.test(reg);
 
-    if(!regEx1 && !regEx2 && !regEx3 && !regEx4){
+    if(regEx4 || regEx5){
+        giveErrorMessage = 'This Registration Number is not for the supported Towns!';
+        return false;
+    }
+    else if(!regEx1 && !regEx2 && !regEx3){
         giveErrorMessage = 'This format is not supported!';
         return false;
     }
-
+    
+    
     if (reg) {
         let regNum = reg.toUpperCase();
 
@@ -24,7 +31,7 @@ module.exports = function registrationNumbers(pool) {
 
         var results = await pool.query('SELECT id FROM towns WHERE location_key = $1', [subStr]);
         if(results.rowCount ===0){
-            giveErrorMessage = 'Enter a  Registration Number for the supported Towns!';
+            giveErrorMessage = 'This Registration Number is not for the supported Towns!';
             return false;
         }else{
         let thisQuery = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [regNum]);
