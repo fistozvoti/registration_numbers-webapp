@@ -68,7 +68,7 @@ describe("Testing the filterRegsOnTown Function", function () {
         let filterThisReg1 = 'CY';
 
         let filtered1 = await createRegistration4.filterRegsOnTown(filterThisReg1)
-        assert.deepEqual(filtered1, [ 'CY 123 243', 'CY 324-567' ])
+        assert.deepEqual(filtered1, [ 'CY 324-567', 'CY 123 243' ])
 
     });
     it("Should be able to filter Registration Numbers from Malmesbury", async function () {
@@ -98,7 +98,7 @@ describe("Testing the filterRegsOnTown Function", function () {
         let filterThisReg3 = 'CA';
 
         let filtered3 = await createRegistration6.filterRegsOnTown(filterThisReg3)
-        assert.deepEqual(filtered3, [ 'CA 123 456', 'CA 324-567' ]);
+        assert.deepEqual(filtered3, [ 'CA 324-567', 'CA 123 456' ]);
 
     });
 })
