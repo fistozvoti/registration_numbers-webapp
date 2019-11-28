@@ -4,10 +4,14 @@ module.exports = function registrationNumbers(pool) {
    async function addNewRegistration(reg){
     let regularPattern1 = /^([A-Za-z]){2}\s([0-9]){3}\s([0-9]){3}/;
     let regularPattern2 = /^([A-Za-z]){2}\s([0-9]){3}-([0-9]){3}/;
+    let regularPattern3 = /^([A-Za-z]){3}\s([0-9]){3}-([0-9]){3}/;
+    let regularPattern4 = /^([A-Za-z]){3}\s([0-9]){3}\s([0-9]){3}/;
     let regEx1 = regularPattern1.test(reg);
     let regEx2 = regularPattern2.test(reg);
+    let regEx3 = regularPattern3.test(reg);
+    let regEx4 = regularPattern4.test(reg);
 
-    if(!regEx1 && !regEx2){
+    if(!regEx1 && !regEx2 && !regEx3 && !regEx4){
         giveErrorMessage = 'This format is not supported!';
         return false;
     }

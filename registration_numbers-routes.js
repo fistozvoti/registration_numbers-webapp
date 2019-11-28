@@ -54,16 +54,12 @@ module.exports = function (registrationsFactory) {
     }
 
     async function filter(req, res){
-        let radioButtons = req.body.radioButton;
-        console.log(radioButtons);
-        
-        let displayFilteredRegistrations = await registrationsFactory.filterRegsOnTown(radioButtons);
-        console.log(displayFilteredRegistrations);
-        
+        let radioButtons = req.body.radioButton;        
+        let displayFilteredRegistrations = await registrationsFactory.filterRegsOnTown(radioButtons);        
         let letsSeeTheTowns = await registrationsFactory.getTheTowns();
 
        if(displayFilteredRegistrations.length == 0){
-        req.flash('error', 'There is nothing to filter for this town!')
+        req.flash('error2', 'There is nothing to filter for this town!')
         }
 
         res.render('index', {
