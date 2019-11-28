@@ -36,7 +36,7 @@ describe("The Registration Numbers Webapp", function () {
             await createRegistration2.addNewRegistration("VK 885 888");
             let result = createRegistration2.returnErrors()
                         
-            assert.equal(result,'This Registration Number is not for the supported Towns!', await createRegistration2.returnErrors());
+            assert.equal(result,'This Registration Number is not for the supported Towns!');
         });
 
         it ("Should be able to take in Registration Numbers and print them in a valid required form", async function () {
